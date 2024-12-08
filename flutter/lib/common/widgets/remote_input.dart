@@ -118,6 +118,7 @@ class _RawTouchGestureDetectorRegionState
       _lastPosOfDoubleTapDown = d.localPosition;
       // Desktop or mobile "Touch mode"
       _lastTapDownDetails = d;
+      await inputModel.tapDown(MouseButtons.left);//按下
     }
   }
 
@@ -131,9 +132,10 @@ class _RawTouchGestureDetectorRegionState
       final isMoved =
           await ffi.cursorModel.move(d.localPosition.dx, d.localPosition.dy);
       if (isMoved) {
+        /*
         if (lastTapDownDetails != null) {
           await inputModel.tapDown(MouseButtons.left);
-        }
+        }*/
         await inputModel.tapUp(MouseButtons.left);
       }
     }
