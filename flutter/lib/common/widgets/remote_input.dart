@@ -108,7 +108,23 @@ class _RawTouchGestureDetectorRegionState
       gestures: makeGestures(context),
     );
   }
-
+  onTapDown(TapDownDetails d) async {
+    // 获取触摸事件发生的设备类型
+    lastDeviceKind = d.kind;
+    // 如果设备类型不是触摸屏，则直接返回
+    if (lastDeviceKind != PointerDeviceKind.touch) {
+      return;
+    }
+    // 如果处于处理触摸模式
+    if (handleTouch) {
+      // 模拟鼠标移动到触摸点位置
+      if (ffi.cursorModel.move(d.localPosition.dx, d.localPosition.dy)) {
+        // 模拟鼠标左键按下
+       await inputModel.tapDown(MouseButtons.left);
+      }
+    }
+  }
+/*
   onTapDown(TapDownDetails d) async {
     lastDeviceKind = d.kind;
     if (lastDeviceKind != PointerDeviceKind.touch) {
@@ -119,10 +135,10 @@ class _RawTouchGestureDetectorRegionState
       // Desktop or mobile "Touch mode"
       _lastTapDownDetails = d;
      // await inputModel.tapDown(MouseButtons.left);//按下
-      inputModel.tapDown(MouseButtons.left);//按下
     }
   }
-
+*/
+  /*
   onTapUp(TapUpDetails d) async {
     final TapDownDetails? lastTapDownDetails = _lastTapDownDetails;
     _lastTapDownDetails = null;
@@ -133,15 +149,29 @@ class _RawTouchGestureDetectorRegionState
       final isMoved =
           await ffi.cursorModel.move(d.localPosition.dx, d.localPosition.dy);
       if (isMoved) {
-        /*
+        
         if (lastTapDownDetails != null) {
           await inputModel.tapDown(MouseButtons.left);
-        }*/
+        }
         await inputModel.tapUp(MouseButtons.left);
       }
     }
   }
-
+*/
+  onTapUp(TapUpDetails d) async {
+    // 如果设备类型不是触摸屏，则直接返回
+    if (lastDeviceKind != PointerDeviceKind.touch) {
+      return;
+    }
+    // 如果处于处理触摸模式
+    if (handleTouch) {
+      // 模拟鼠标移动到触摸点位置
+      if (ffi.cursorModel.move(d.localPosition.dx, d.localPosition.dy)) {
+        // 模拟鼠标左键释放
+       await inputModel.tapUp(MouseButtons.left);
+      }
+    }
+  }
   onTap() async {
     if (lastDeviceKind != PointerDeviceKind.touch) {
       return;
