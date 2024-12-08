@@ -118,7 +118,8 @@ class _RawTouchGestureDetectorRegionState
       _lastPosOfDoubleTapDown = d.localPosition;
       // Desktop or mobile "Touch mode"
       _lastTapDownDetails = d;
-      await inputModel.tapDown(MouseButtons.left);//按下
+     // await inputModel.tapDown(MouseButtons.left);//按下
+      inputModel.tapDown(MouseButtons.left);//按下
     }
   }
 
